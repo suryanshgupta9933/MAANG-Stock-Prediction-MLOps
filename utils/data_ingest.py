@@ -29,7 +29,7 @@ class DataIngestion(object):
 
 # Creating a step for data ingestion
 @step
-def ingest_data_step(data_path: str) -> pd.DataFrame:
+def ingest_data(data_path: str) -> pd.DataFrame:
     """
     Ingesting the data from the data source
 
