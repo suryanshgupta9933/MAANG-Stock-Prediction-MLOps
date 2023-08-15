@@ -6,5 +6,5 @@ from zenml import step
 
 # Creating a step for data cleaning
 @step
-def clean_data(df: pd.DataFrame) -> pd.DataFrame:
+def clean_data(df: pd.DataFrame) -> None:
     pass

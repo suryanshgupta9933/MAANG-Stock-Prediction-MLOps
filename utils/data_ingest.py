@@ -5,7 +5,7 @@ import pandas as pd
 from zenml import step
 
 # Creating a class for data ingestion
-class DataIngestion(object):
+class DataIngestion:
     """
     Ingesting from data source and returning a pandas dataframe
     """
