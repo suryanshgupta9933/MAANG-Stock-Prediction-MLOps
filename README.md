@@ -50,3 +50,12 @@ The world of stocks is ever-evolving, and forecasting stock prices can provide s
 3. **Code Deployment**: Deploying the code to a production environment.
 4. **Code Monitoring**: Monitoring the code to ensure that it works as expected.
 
+## Machine Learning Pipeline
+A machine learning pipeline is simply an extension, including other steps you would do before or after building a model, like data aquistion, preprocessing, model deployment or monitoring. The ML pipeline essentially defines a step-by-step procedureof your work as an ML practitioner. 
+
+Defining ML pipeline explicitly in code is great because:
+- We can easily rerun all of our steps in the pipeline, eliminating bugs and making our models reproducible.
+- Data and models can be versioned, making it easy to track changes and revert to previous versions.
+- We can automate many operational tasks, such as retraining models and redeploying or rolling out new and improved models with CI/CD workflows.
+- We can easily share our work with others, making it easy to collaborate and get feedback.
+
