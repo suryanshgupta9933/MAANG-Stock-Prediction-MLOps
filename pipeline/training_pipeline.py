@@ -7,7 +7,7 @@ from utils.model_train import train_model
 from utils.evaluation import eval_model
 
 # Defining the Training Pipeline
-@pipeline
+@pipeline(enable_cache=True)
 def train_pipeline(data_path: str):
     """
     Training pipeline to train the model
@@ -17,6 +17,6 @@ def train_pipeline(data_path: str):
         None
     """
     df = ingest_data(data_path)
-    clean_data(df)
-    train_model(df)
-    eval_model(df)
+    X_train, X_test, y_train, y_test = clean_data(df)
+    catboost, lightgbm = train_model(X_train, X_test, y_train, y_test)
+    mse, r2, rmse = eval_model(catboost, lightgbm, X_test, y_test)
