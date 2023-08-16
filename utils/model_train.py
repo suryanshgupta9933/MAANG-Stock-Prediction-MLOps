@@ -4,7 +4,12 @@ import logging
 import pandas as pd
 from zenml import step
 
+from catboost import CatBoostRegressor
+from lightgbm import LGBMRegressor
 from src.model import BoostingModels
+
+from typing import Tuple
+from typing_extensions import Annotated
 
 # Creating a step for model training
 @step
@@ -13,7 +18,10 @@ def train_model(
     X_test: pd.DataFrame,
     y_train: pd.DataFrame,
     y_test: pd.DataFrame
-) -> BoostingModels:
+) -> Tuple[
+    Annotated[CatBoostRegressor, "catboost"],
+    Annotated[LGBMRegressor, "lightgbm"]
+]:
     """
     Training the model
 
@@ -29,8 +37,8 @@ def train_model(
     try:
         model = None
         model = BoostingModels()
-        trained_model = model.train(X_train, y_train)
-        return trained_model
+        catboost, lightgbm = model.train(X_train, X_test, y_train, y_test)
+        return catboost, lightgbm
     except Exception as e:
         logging.error("Error while training model: {}".format(e))
         raise e
