@@ -1,8 +1,10 @@
 # Importing Dependencies
 import logging
 
+import mlflow
 import pandas as pd
 from zenml import step
+from zenml.client import Client
 
 from src.evaluation import MSE, R2Score, RMSE
 
@@ -12,8 +14,10 @@ from lightgbm import LGBMRegressor
 from typing import Tuple
 from typing_extensions import Annotated
 
+experiment_tracker = Client().active_stack.experiment_tracker
+
 # Creating a step for model evaluation
-@step
+@step(experiment_tracker=experiment_tracker.name)
 def eval_model(
     catboost: CatBoostRegressor,
     lightgbm: LGBMRegressor,
@@ -60,6 +64,11 @@ def eval_model(
         mse = (c_mse + l_mse) / 2
         r2 = (c_r2 + l_r2) / 2
         rmse = (c_rmse + l_rmse) / 2
+
+        # Logging the metrics
+        mlflow.log_metric("MSE", mse)
+        mlflow.log_metric("R2", r2)
+        mlflow.log_metric("RMSE", rmse)
 
         logging.info("Evaluation completed successfully")
         return mse, r2, rmse

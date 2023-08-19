@@ -1,8 +1,10 @@
 # Importing Dependencies
 import logging
 
+import mlflow
 import pandas as pd
 from zenml import step
+from zenml.client import Client
 
 from catboost import CatBoostRegressor
 from lightgbm import LGBMRegressor
@@ -11,8 +13,10 @@ from src.model import BoostingModels
 from typing import Tuple
 from typing_extensions import Annotated
 
+experiment_tracker = Client().active_stack.experiment_tracker
+
 # Creating a step for model training
-@step
+@step(experiment_tracker=experiment_tracker.name)
 def train_model(
     X_train: pd.DataFrame,
     X_test: pd.DataFrame,
@@ -36,6 +40,7 @@ def train_model(
     """
     try:
         model = None
+        mlflow.sklearn.autolog()
         model = BoostingModels()
         catboost, lightgbm = model.train(X_train, X_test, y_train, y_test)
         return catboost, lightgbm
